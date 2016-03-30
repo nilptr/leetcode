@@ -18,16 +18,17 @@ public class Solution {
     private void dfs(TreeNode root, int sum, List<Integer> path, List<List<Integer>> ret) {
         if (root == null) return;
         if (root.left == null && root.right == null && root.val == sum) {
-            path.add(root.val);
-            ret.add(path);
+            List<Integer> copy = new ArrayList<Integer>(path.size() + 1);
+            copy.addAll(path);
+            copy.add(root.val);
+            ret.add(copy);
             return;
         }
         path.add(root.val);
-        List<Integer> left = new LinkedList<Integer>();
-        left.addAll(path);
-        dfs(root.left, sum - root.val, left, ret);
-        List<Integer> right = new LinkedList<Integer>();
-        right.addAll(path);
-        dfs(root.right, sum - root.val, right, ret);
+
+        dfs(root.left, sum - root.val, path, ret);
+        dfs(root.right, sum - root.val, path, ret);
+
+        path.remove(path.size() - 1);
     }
 }
