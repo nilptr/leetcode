@@ -9,67 +9,52 @@
  */
 public class Solution {
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-        List<List<Integer>> result = new ArrayList<>();  
-        if (root == null) {  
-            return result;  
-        }  
-          
-        LinkedList<TreeNode> queue = new LinkedList<>();  
-        queue.add(root);  
-          
-          
-        boolean flag = true;  
-        while (!queue.isEmpty()) {  
-            ArrayList<Integer> list = new ArrayList<>();  
-              
-               
-            if (flag) {  
-                  
-                TreeNode last = queue.getLast();  
-                TreeNode node = null;  
-                do {  
-                    node = queue.getFirst();  
-                    list.add(node.val);  
-                      
-                    if (node.left != null) {  
-                        queue.addLast(node.left);  
-                    }  
-                    if (node.right != null) {  
-                        queue.addLast(node.right);  
-                    }  
-                      
-                    queue.removeFirst();  
-                    if (queue.isEmpty()) {  
-                        break;  
-                    }  
-                } while (node != last);  
-                  
-            } else {  
-                TreeNode node = null;  
-                TreeNode first = queue.getFirst();  
-                do {  
-                    node = queue.getLast();  
-                    list.add(node.val);  
-  
-                    if (node.right != null) {  
-                        queue.addFirst(node.right);  
-                    }  
-                    if (node.left != null) {  
-                        queue.addFirst(node.left);  
-                    }  
-                      
-  
-                    queue.removeLast();  
-                    if (queue.isEmpty()) {  
-                        break;  
-                    }  
-                } while(node != first);  
-            }  
-              
-            flag =  !flag;  
-            result.add(list);  
-        }  
-          
-        return result;  
+        List<List<Integer>> ret = new LinkedList<>();
+
+        if (root == null) return ret;
+
+        // 方向标记 true 从左向右 false 从右向左
+        boolean flag = false;
+
+        List<Integer> valOrder = new LinkedList<>();
+        valOrder.add(root.val);
+        List<TreeNode> preNodeOrder = new LinkedList<>();
+        preNodeOrder.add(root);
+
+        while(preNodeOrder.size() != 0) {
+            ret.add(valOrder);
+            valOrder = new LinkedList<>();
+            List<TreeNode> nodeOrder = new LinkedList<>();
+
+            if (flag) {
+                for (TreeNode node: preNodeOrder) {
+                    if (node.left != null) {
+                        valOrder.add(node.left.val);
+                        nodeOrder.add(node.left);
+                    }
+                    if (node.right != null) {
+                        valOrder.add(node.right.val);
+                        nodeOrder.add(node.right);
+                    }
+                }
+            } else {
+                for (TreeNode node: preNodeOrder) {
+                    if (node.right != null) {
+                        valOrder.add(node.right.val);
+                        nodeOrder.add(node.right);
+                    }
+                    if (node.left != null) {
+                        valOrder.add(node.left.val);
+                        nodeOrder.add(node.left);
+                    }
+                }
+            }
+
+            flag = !flag;
+            Collections.reverse(nodeOrder);
+            preNodeOrder = nodeOrder;
+        }
+
+        return ret;
     }
 }
