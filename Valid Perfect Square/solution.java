@@ -5,9 +5,9 @@ public class Solution {
         int a = 1;
         int b = (num + 1) / 2; // 第一次避免溢出 num = 2147483647
 
-        while (a < b) {
+        while (a <= b) {
             int mid = (a + b) / 2;
-            long s = mid * mid; // 中位数平方可能溢出
+            long s = mid * mid; // 搜索数字的平方可能溢出 num = 808201
             if (s == num) {
                 return true;
             } else if (s < num) {
@@ -17,6 +17,6 @@ public class Solution {
             }
         }
 
-        return a == b && a * a == num;
+        return false;
     }
 }
