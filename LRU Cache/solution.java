@@ -11,18 +11,10 @@ public class LRUCache {
     }
 
     public int get(int key) {
-        if (cache.containsKey(key)) {
-            int value = cache.get(key);
-            cache.remove(key);
-            cache.put(key, value);
-            return value;
-        }
-        return -1;
+        return cache.getOrDefault(key, -1);
     }
 
     public void set(int key, int value) {
-        cache.put(key, value);
-        cache.remove(key);
         cache.put(key, value);
     }
 }
