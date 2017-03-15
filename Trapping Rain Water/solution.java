@@ -1,4 +1,5 @@
 public class Solution {
+    // 时间 O(n) 空间 O(n)
     public int trap(int[] height) {
         int len = height.length;
         int[] left = new int[len]; // 左侧高峰
